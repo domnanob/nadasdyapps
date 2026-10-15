@@ -5,48 +5,98 @@ const gameBody = document.querySelector(".gameBody")
 
 let items = []
 const mode = sessionStorage.getItem('gameMode')
+
+async function readApiJson(response, sourceName) {
+    const responseBody = await response.text()
+    let data
+
+    try {
+        data = JSON.parse(responseBody.replace(/^\uFEFF/, ''))
+    } catch (error) {
+        console.error(`${sourceName} returned a non-JSON response.`, {
+            status: response.status,
+            contentType: response.headers.get('content-type'),
+        })
+        throw new Error(`${sourceName} returned an invalid response (HTTP ${response.status}). Check the Azure PHP logs and confirm the API endpoint is deployed.`)
+    }
+
+    if (!response.ok) {
+        throw new Error(data.error || `${sourceName} request failed (HTTP ${response.status}).`)
+    }
+
+    return data
+}
+
 if (mode === 'spotify') {
     fetch("server/spotify_api.php")
-        .then(async response => {
-            const artists = await response.json()
-            if (!response.ok) {
-                throw new Error(artists.error || "A Spotify-adatok betöltése nem sikerült.")
-            }
+        .then(response => readApiJson(response, 'Spotify API'))
+        .then(artists => {
             if (!Array.isArray(artists) || artists.length < 2) {
                 throw new Error("A Spotify-adatforrás nem adott elegendő előadót.")
             }
-            return artists
-        })
-        .then(artists => {
             items = artists
+            valueTxt = 'pont'
+            unitTxt = '/ 100'
             document.querySelectorAll('.has').forEach(element => {
                 element.innerText = 'Spotify-népszerűség:'
             })
             document.querySelectorAll('.valueText').forEach(element => {
-                element.innerText = 'pont'
+                element.innerText = valueTxt
             })
             document.querySelectorAll('.unit').forEach(element => {
-                element.innerText = '/ 100'
+                element.innerText = unitTxt
             })
             document.querySelectorAll('.spotify-attribution').forEach(element => {
                 element.hidden = false
             })
             preloadItems(startLoadedGame)
         })
-        .catch(error => {
-            console.error("Error fetching Spotify artists:", error)
-            loadingscreen.textContent = error.message || "Nem sikerült betölteni a Spotify-adatokat. Frissítsd az oldalt, és próbáld újra."
+        .catch(async apiError => {
+            console.warn("Spotify API unavailable; loading the local artist data instead:", apiError)
+            try {
+                const response = await fetch("db/spotify_items.json")
+                const fallbackItems = await readApiJson(response, 'Local Spotify data')
+                if (
+                    !Array.isArray(fallbackItems)
+                    || fallbackItems.length < 2
+                    || fallbackItems.some(item =>
+                        !item
+                        || typeof item.name !== 'string'
+                        || !Number.isFinite(Number(item.value))
+                        || typeof item.img !== 'string'
+                    )
+                ) {
+                    throw new Error("A helyi Spotify-adatfájl formátuma érvénytelen.")
+                }
+
+                items = fallbackItems
+                valueTxt = 'millió'
+                unitTxt = ''
+                document.querySelectorAll('.has').forEach(element => {
+                    element.innerText = 'Havi hallgatók száma:'
+                })
+                document.querySelectorAll('.valueText').forEach(element => {
+                    element.innerText = valueTxt
+                })
+                document.querySelectorAll('.unit').forEach(element => {
+                    element.innerText = unitTxt
+                })
+                document.querySelectorAll('.spotify-attribution').forEach(element => {
+                    element.hidden = true
+                })
+                preloadItems(startLoadedGame)
+            } catch (fallbackError) {
+                console.error("Could not load local Spotify fallback data:", fallbackError)
+                loadingscreen.textContent = "A Spotify API nem érhető el, és a helyi adatfájl betöltése is sikertelen."
+            }
         })
 
 }
 
 else if (mode === 'countries') {
     fetch("server/countries_api.php")
-        .then(async response => {
-            const countries = await response.json()
-            if (!response.ok) {
-                throw new Error(countries.error || "Az országadatok betöltése nem sikerült.")
-            }
+        .then(response => readApiJson(response, 'Country data API'))
+        .then(countries => {
             if (!Array.isArray(countries)) {
                 throw new Error("Az országadatok forrása érvénytelen választ adott.")
             }
