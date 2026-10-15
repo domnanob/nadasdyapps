@@ -1,3 +1,55 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
+
+require_once __DIR__ . '/../includes/database.php';
+$conn = kepzesi_database_connection('higherorlowergame');
+require_once __DIR__ . '/server/functions.php';
+
+$user_data = check_login($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$user_data['is_guest'] && isset($_POST['saveChanges'])) {
+  $updates = [];
+
+  $username = $_POST['username'];
+  $email = $_POST['email'];
+  $country = $_POST['country'];
+
+  $values = [];
+  if ($username !== $user_data['username']) {
+    $updates[] = 'username = ?';
+    $values[] = $username;
+  }
+
+  if ($email !== $user_data['email']) {
+    $updates[] = 'email = ?';
+    $values[] = $email;
+  }
+
+  if ($country !== $user_data['country']) {
+    $updates[] = 'country = ?';
+    $values[] = $country;
+  }
+
+  if (!empty($updates)) {
+    $sql = "UPDATE higherorlower_users
+              SET " . implode(', ', $updates) . "
+              WHERE user_id = ?";
+
+    $values[] = $user_data['user_id'];
+    $statement = $conn->prepare($sql);
+    if ($statement->execute($values)) {
+      header('Location: ./', true, 303);
+      exit();
+    }
+
+    error_log('Higher/Lower profile update failed for user ' . $user_data['user_id'] . '.');
+    http_response_code(500);
+    exit('Hiba történt az adatok mentésekor.');
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="hu">
 
@@ -9,21 +61,6 @@
     integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/bb8ffdf1b9.js" crossorigin="anonymous"></script>
   <title>Magasabb vagy alacsonyabb?</title>
-
-  <?php
-
-  session_start();
-
-  require_once __DIR__ . '/../includes/database.php';
-  $conn = kepzesi_database_connection('higherorlowergame');
-  include("server/functions.php");
-
-  $user_data = check_login($conn);
-
-
-
-
-  ?>
 
 </head>
 
@@ -375,51 +412,6 @@
       </form>
     </div>
   </div>
-
-  <?php
-  if ($_SERVER['REQUEST_METHOD'] == "POST" && !$user_data['is_guest'] && isset($_POST['saveChanges'])) {
-    $updates = [];
-
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $country = $_POST['country'];
-
-
-
-    $values = [];
-    if ($username !== $user_data['username']) {
-      $updates[] = 'username = ?';
-      $values[] = $username;
-    }
-
-    if ($email !== $user_data['email']) {
-      $updates[] = 'email = ?';
-      $values[] = $email;
-    }
-
-    if ($country !== $user_data['country']) {
-      $updates[] = 'country = ?';
-      $values[] = $country;
-    }
-
-    if (!empty($updates)) {
-      $sql = "UPDATE higherorlower_users
-                SET " . implode(', ', $updates) . " 
-                WHERE user_id = ?";
-
-      $values[] = $user_data['user_id'];
-      $statement = $conn->prepare($sql);
-      if ($statement->execute($values)) {
-        echo "<script>window.location.href = window.location.href;</script>";
-        exit();
-      } else {
-        echo "Hiba történt az adatok mentésekor.";
-      }
-    }
-  }
-  ?>
-
-
 
   <div class="leaderboard">
     <table>
