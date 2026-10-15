@@ -1,0 +1,744 @@
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+.dropdown {
+    width: 7em;
+    position: relative;
+}
+
+.dropdown * {
+    box-sizing: border-box;
+}
+
+.selectCountry {
+    background-color: #2a2f3b;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px #2a2f3b solid;
+    border-radius: 0.5em;
+    padding: 0.6em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.selectCountry>div:nth-child(1) {
+    display: flex;
+    align-items: center;
+}
+
+.flag {
+    width: 3em;
+    border-radius: 0.3em;
+}
+
+.menuFlag {
+    width: 2em;
+    border-radius: 0.3em;
+    margin-right: 0.5em;
+}
+
+.selectedCountry-clicked {
+    border: 2px #26489a solid;
+    box-shadow: 0 0 0.8em #26489a;
+}
+
+.selectCountry:hover {
+    background-color: #323741;
+}
+
+.arrow {
+    transition: 0.3s;
+    font-size: 20px;
+}
+
+.arrow-rotate {
+    transform: rotate(180deg);
+}
+
+.countryMenu {
+    list-style: none;
+    padding: 0.2em 0.5em;
+    background: #323741;
+    border: 1px #363a34 solid;
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+    border-radius: 0.5em;
+    color: #9fa5b5;
+    position: absolute;
+    left: 100%;
+    min-width: 17em;
+    max-height: 200px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #2a2d35 #323741;
+    transform: translateX(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    text-align: left;
+    z-index: 100;
+}
+
+.countryMenu li {
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.countryMenu li:hover {
+    background: #2a2d35;
+}
+
+.activeCountry {
+    background: #23242a;
+}
+
+.countryMenu-open {
+    display: block;
+    opacity: 1;
+}
+
+@media screen and (max-width: 600px) {
+    .dropdown {
+        font-size: 13px;
+    }
+}
+
+/* Főoldal */
+
+.homePage {
+    background-color: #2a2f3b;
+    height: 100vh;
+}
+
+.sidebarbg {
+    width: 60px;
+    height: 100vh;
+    background-color: #2a2f3b;
+    position: fixed;
+    z-index: 999;
+}
+
+.sidebar {
+    width: 180px;
+    height: calc(100vh - 10px);
+    background-color: #121212;
+    margin: 5px 5px 0 5px;
+    position: fixed;
+    color: #9ca3af;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Cal Sans', sans-serif;
+    border-radius: 10px;
+    z-index: 1000;
+    transition: 0.8s ease;
+}
+
+.sidebar.closed {
+    width: 60px;
+
+    .sb-list-item span {
+        display: none;
+    }
+
+    .sb-list-item a[aria-label]:hover::after {
+        content: attr(aria-label);
+
+        position: absolute;
+        margin-left: 8px;
+        left: 45px;
+
+        padding: 4px 8px;
+        background-color: #333;
+        color: #9ca3af;
+        font-size: 0.9em;
+        white-space: nowrap;
+        border-radius: 4px;
+        z-index: 1000;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.sidebar-header {
+    text-align: center;
+    color: #9ca3af;
+    padding: 15px 0;
+}
+
+.sidebar-header a {
+    color: #9ca3af;
+    text-decoration: none;
+}
+
+.sidebar-content {}
+
+
+
+.sb-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.sb-list-item {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sb-list-item a:hover {
+    background-color: #1f1f1f;
+    color: #fff;
+    border-radius: 5px;
+}
+
+
+.sb-list-item a {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 7.5px;
+
+    transition: 0.1s ease;
+}
+
+.sb-list-item i,
+.sidebar-header i {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em;
+}
+
+.sub-leaderboard-item {
+    transition: transform 0.5s ease, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+}
+
+.sub-leaderboard-item.visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.sb-list-item.selected a {
+    background-color: #313131;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+body.leaderboard-open .sidebar {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Play Buttons */
+
+.page-content {
+    height: 100vh;
+    position: relative;
+    z-index: 0;
+}
+
+.gameBtns {
+    margin: 15px 0;
+
+    display: inline-block;
+    text-decoration: none;
+
+    font: 300 50px 'Cal Sans', sans-serif;
+
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px 10px;
+    transition: 0.5s ease;
+}
+
+.fa-spotify,
+.fa-earth-americas {
+    margin: 0;
+    padding: 0;
+}
+
+.gameBtns.spotify {
+    color: #1DB954;
+    border: 5px solid #1DB954;
+}
+
+.gameBtns.countries {
+    color: #67edff;
+    border: 5px solid #67edff;
+}
+
+
+.gameBtns:hover {
+    filter: brightness(1.5);
+    /*     color: white;
+    border-color: #fff; */
+}
+
+/* 
+.playbtn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10em;
+}
+
+.playbtn i {
+    color: #fff;
+} */
+
+
+
+/* Profile Page */
+.profile-card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(280px, 90vw, 500px);
+    height: auto;
+    max-height: 90vh;
+    background-color: #121212;
+    border-radius: 10px;
+    z-index: 11;
+    font-family: 'Cal Sans', sans-serif;
+    color: #9ca3af;
+    padding: 2vh 2vw;
+    overflow: visible;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profileBtn {
+    width: 100%;
+    max-width: 200px;
+    height: 40px;
+    border-radius: 15px;
+    color: #9ca3af;
+    background-color: #1e1e1e;
+    border: 0;
+    transition: 0.3s ease;
+}
+
+.profileBtn:hover {
+    filter: brightness(1.5);
+}
+
+.yourProfile {
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
+    font-weight: 300;
+}
+
+.userEmail {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+}
+
+.profile-container .fa-user {
+    font-size: clamp(4rem, 8vw, 7em);
+    color: #fff;
+}
+
+.line {
+    height: 2px;
+    background-color: #9ca3af;
+    width: 75%;
+    margin: 15px auto;
+}
+
+#countryFlag {
+    width: clamp(100px, 30vw, 150px);
+    height: auto;
+    margin: 15px;
+    border: none;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+input.form-control {
+    font-size: clamp(0.9rem, 1vw, 1.1rem);
+}
+
+
+/* Leaderboard Page */
+
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-200%);
+    transition: transform 0.8s ease;
+    position: fixed;
+    margin: 5px 0;
+    height: calc(100vh - 10px);
+    top: 0;
+    width: 30%;
+    left: 60px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.leaderboard table {
+    flex: 1;
+    height: 100%;
+    /* Makes the table fill the height */
+    width: 100%;
+    border-collapse: collapse;
+    color: #9ca3af;
+    font: lighter 1.2em 'Cal Sans', sans-serif;
+    table-layout: fixed;
+    /* Ensures even column spacing */
+    transition: 0.8s ease;
+
+}
+
+th:last-of-type {
+    border-top-right-radius: 10px;
+}
+
+tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 10px;
+}
+
+
+.leaderboard thead {
+    padding: 0;
+    font: lighter 1em 'Poppins', sans-serif;
+}
+
+.leaderboard.closed {
+    transform: translateX(-100%);
+}
+
+.leaderboard.activelb {
+    transform: translateX(0);
+}
+
+.sidebar-open .leaderboard.activelb {
+    transform: translateX(120px);
+}
+
+
+
+.leaderboard th,
+.leaderboard td {
+    background-color: #121212;
+    text-align: center;
+
+}
+
+.leaderboard tbody tr:hover td {
+    background-color: #1e1e1e;
+    transition: background-color 0.3s;
+}
+
+
+.leaderboard table tr td:nth-child(1),
+.leaderboard table tr th:nth-child(1) {
+    width: 10%;
+    /* Position/Rank */
+}
+
+.leaderboard table tr td:nth-child(2),
+.leaderboard table tr th:nth-child(2) {
+    width: 50%;
+    /* Username */
+    text-align: left;
+    padding-left: 10px;
+}
+
+.leaderboard table tr td:nth-child(3),
+.leaderboard table tr th:nth-child(3) {
+    width: 20%;
+    /* Score */
+}
+
+.leaderboard table tr td:nth-child(4),
+.leaderboard table tr th:nth-child(4) {
+    width: 20%;
+    /* Mode */
+}
+
+
+
+.userCountry {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+
+
+.userCountry img {
+    width: 30px;
+    height: 20px;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+.userCountry span {
+    padding: 0 5px;
+}
+
+
+/* Game Style */
+
+.gameBody {
+    background-color: #2a2f3b;
+    overflow: hidden;
+}
+
+.itemcard {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.text {
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.itemcard img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    filter: blur(5px);
+    transform: scale(1.05);
+    pointer-events: none;
+}
+
+.mode-countries .itemcard {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* pushes text/buttons down */
+    padding: 2em 1em;
+    box-sizing: border-box;
+}
+
+.mode-countries .itemcard img {
+    width: 90%;
+    max-width: 400px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    margin-top: 1em;
+    filter: none;
+}
+
+.mode-countries .text,
+.answerbox {
+    margin: 5em 0;
+}
+
+.artistName {
+    font: 600 3em 'Cal Sans', sans-serif;
+    text-shadow: 0 0 5px black;
+}
+
+.artistValue {
+    font: 600 3em 'Cal Sans', sans-serif;
+    color: rgb(255, 189, 119);
+
+}
+
+.has,
+.unit {
+    user-select: none;
+    font: 200 1em 'Cal Sans', sans-serif;
+}
+
+.artistName,
+.artistValue,
+.has,
+.monthly {
+    margin: 0;
+    /* text-shadow: 0 0 5px black; */
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#higherBtn {}
+
+#lowerBtn {}
+
+.butn {
+    background-color: transparent;
+    color: #fff;
+    font: 300 1.25em 'Cal Sans', sans-serif;
+    border: 2px #fff solid;
+    border-radius: 35px;
+    padding: 0.6em;
+    transition: background 0.3s;
+    width: 10em;
+    margin: 5px 0;
+}
+
+.butn:hover {
+    background-color: #fff;
+    color: #2a2f3b;
+    transition: 0.4s ease;
+
+    .fa-caret-up {
+        transform: translateY(-4px);
+        color: #2a2f3b;
+    }
+
+    .fa-caret-down {
+        transform: translateY(4px);
+        color: #2a2f3b;
+    }
+
+}
+
+.fa-caret-up,
+.fa-caret-down {
+    margin: 0 0 0 10px;
+    padding: 5px 0 0 0;
+    transition: 0.4s ease;
+
+}
+
+.fa-caret-up {
+    position: relative;
+    top: 2px;
+}
+
+.fa-caret-down {
+    position: relative;
+    bottom: 0px;
+}
+
+.vert-line {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100vh;
+    width: 2px;
+    background-color: #fff;
+    z-index: 1;
+    opacity: 0.2;
+}
+
+.answerbox {
+    height: 100px;
+    width: 100px;
+    background-color: white;
+    border-radius: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    user-select: none;
+
+}
+
+.correct,
+.incorrect {
+    margin: 0;
+    padding: 0;
+    font-size: 50px;
+    color: white;
+    user-select: none;
+
+}
+
+
+.gameEndCard {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#gameEndTitle {
+    font: 600 3em 'Cal Sans', sans-serif;
+    color: #fff;
+}
+
+#gameEndText {
+    font: 200 1.5em 'Cal Sans', sans-serif;
+    color: #fff;
+}
+
+#backToMenu {
+    margin: 0 10px;
+}
+
+.scorebox {
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
+}
+
+.score {
+    font: 200 1.5em 'Cal Sans', sans-serif;
+    color: #fff;
+    margin: 0;
+}
+
+.vs {
+    font: 200 2.5em 'Cal Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #2a2f3b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 2em;
+    z-index: 9999;
+}

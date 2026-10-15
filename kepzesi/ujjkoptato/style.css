@@ -1,0 +1,414 @@
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+
+body {
+  background-color: #121212 !important;
+  /*   overflow-y: hidden;
+  overflow: hidden;
+  overflow-x: hidden; */
+  user-select: none;
+  font-family: 'Cal Sans', sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 155px);
+  grid-template-rows: repeat(3, 155px);
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
+  background-image: url(ntszki.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  color: #FFF5FD;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+
+  /* force-disable old float/margin if leftover rules remain */
+  float: none !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    gap: 8px;
+  }
+
+  .cell {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(3, 90px);
+    grid-template-rows: repeat(3, 90px);
+    gap: 6px;
+  }
+
+  .cell {
+    font-size: 1.1em;
+  }
+}
+
+.cell:first-child+div+div,
+.cell:first-child+div+div+div+div+div,
+.cell:first-child+div+div+div+div+div+div+div+div {
+  background-image: url(ntszki.png);
+  background-repeat: no-repeat;
+}
+
+.cell:first-child+div+div+div,
+.cell:first-child+div+div+div+div+div+div,
+.cell:first-child+div+div+div+div+div+div+div+div+div {
+  clear: left
+}
+
+#gameContainer,
+#endGameContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: hidden;
+  overflow: hidden;
+  overflow-x: hidden;
+
+}
+
+#startGameContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+/* #startGameBtn {
+  border: 0px solid white;
+  border-radius: 0;
+  font-family: 'ArcadeClassic', sans-serif;
+  font-size: 30px;
+}
+
+#restartGameBtn {
+  border: 0px solid white;
+  border-radius: 0;
+  font-family: 'ArcadeClassic', sans-serif;
+  word-spacing: 5px;
+  font-size: 30px;
+}
+
+#leaderboardBtn {
+  border: 0px solid white;
+  border-radius: 0;
+  font-family: 'ArcadeClassic', sans-serif;
+  font-size: 30px;
+} */
+
+#toastContainer {
+  position: absolute !important;
+  /* keep the positioning */
+  left: 75% !important;
+  top: 50% !important;
+  transform: translateY(-50%) translateX(10px) !important;
+
+  /* Remove all styling applied by Bootstrap */
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  font-size: 16px;
+  /* adjust as needed */
+  color: black;
+  /* text color */
+}
+
+#toastContainer,
+#toastContainer * {
+  background: transparent !important;
+  /* remove red background */
+  border: none !important;
+  /* remove borders */
+  box-shadow: none !important;
+  /* remove shadow */
+  padding: 0 !important;
+  /* remove inner padding */
+  margin: 0 !important;
+  /* remove inner margin */
+  width: auto !important;
+  /* don’t force width */
+  height: auto !important;
+  /* don’t force height */
+  font-size: 16px;
+  /* text size */
+  color: red;
+}
+
+/* .table {
+  width: 50%;
+  margin: 50px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  color: #2a2f3b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.table thead th {
+  background: #323741;
+  font-weight: 600;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #323741;
+}
+
+.table td,
+.table th {
+  padding: 14px;
+  text-align: center;
+  border: none;
+}
+
+.table th {
+  color: #1DB954;
+  font-weight: bold;
+}
+
+.table tbody td,
+th {
+  background-color: #323741 !important;
+  color: #1DB954;
+} */
+
+.table {
+  width: 35%;
+  margin: 0 auto;
+}
+
+.table tr {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #181818;
+  width: 100%;
+}
+
+.table th,
+.table td {
+  border: none !important;
+  background-color: #181818;
+  text-decoration: none;
+  color: #9ca3af;
+  font-size: 20px;
+}
+
+.table tr td:nth-child(3),
+.table tr th:nth-child(3) {
+  margin-left: auto;
+  text-align: right;
+}
+
+
+.highlightRow,
+.highlightRow th,
+.highlightRow td {
+  background-color: #1ed760 !important;
+  color: #fff;
+}
+
+.first-place,
+.first-place th,
+.first-place td {
+  background-color: gold !important;
+  box-shadow: 0 0 15px gold !important;
+  color: #fff !important;
+}
+
+.second-place,
+.second-place th,
+.second-place td {
+  background-color: silver !important;
+  box-shadow: 0 0 15px silver !important;
+  color: #fff !important;
+}
+
+.third-place,
+.third-place th,
+.third-place td {
+  background-color: #cd7f32 !important;
+  box-shadow: 0 0 15px #cd7f32 !important;
+  color: #fff !important;
+}
+
+
+
+@media (max-width: 768px) {
+  .table{
+    width: 80%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    gap: 8px;
+  }
+
+  .cell {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+/*   .table{
+    width: 100%;
+  } */
+
+  .grid {
+    grid-template-columns: repeat(3, 90px);
+    grid-template-rows: repeat(3, 90px);
+    gap: 6px;
+  }
+
+  .cell {
+    font-size: 1.1em;
+  }
+}
+
+.leadera {
+  position: absolute;
+  left: 50%;
+}
+
+.promptContainer {
+  position: absolute;
+  left: 50%;
+  top: 28%;
+  transform: translate(-50%, -50%);
+  width: clamp(280px, 90vw, 500px);
+  height: auto;
+  max-height: 90vh;
+  background-color: #343434;
+  border-radius: 10px;
+  z-index: 11;
+  font-family: 'Cal Sans', sans-serif;
+  color: #9ca3af;
+  padding: 2vh 2vw;
+  overflow: visible;
+}
+
+.btns {
+  width: 200px;
+  height: 50px;
+  border: 0;
+  border-radius: 18px;
+  background-color: #333;
+  color: #9ca3af;
+  font-family: 'Cal Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  transition: none;
+}
+
+.btns:hover {
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 0 8px #444;
+  transform: scale(1.05);
+  transition: ease-in 0.3s;
+}
+
+.startBtn:hover {
+  background-color: #1ed760;
+  box-shadow: 0 0 10px #1DB954;
+  transform: scale(1.05);
+}
+
+.btns i {
+  font-size: 20px;
+  margin: 0 5px 0 0;
+  padding: 0;
+}
+
+.startBtn {
+  background-color: #1DB954;
+  color: white;
+}
+
+.btns:active,
+.btns:focus {
+  transition: none !important;
+}
+
+
+#currentScore {
+  font-family: 'Cal Sans', sans-serif;
+  font-size: 40px;
+  margin: auto;
+}
+
+.neonColorShadowGreen {
+  text-shadow:
+    0 0 10px #74ee15,
+    0 0 20px #74ee15,
+    0 0 40px #74ee15,
+    0 0 80px #74ee15;
+}
+
+.neonColorShadowRed {
+  text-shadow:
+    0 0 10px #fd4131,
+    0 0 25px #fd4131,
+    0 0 50px #fd4131,
+    0 0 100px #fd4131,
+    0 0 200px #fd4131,
+    0 0 400px #fd4131;
+}
+
+.fsBtn {
+  position: absolute;
+  border: 0;
+  right: 0;
+  top: 0;
+  font-size: 25px;
+}
+
+#nameInput {
+  transition: 0.6s;
+}
+
+#nameInput:focus {
+  outline: none !important;
+  box-shadow: 0 0 15px #999 !important;
+  border: 1px solid #999 !important;
+}
+
+#backBtn{
+  margin-bottom: 15px;
+}

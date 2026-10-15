@@ -1,0 +1,995 @@
+:root {
+    color-scheme: dark;
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    --page: #17152d;
+    --panel: #211f3a;
+    --muted: #aaa8c3;
+    --ink: #fcfbff;
+    --yellow: #ffd166;
+    --purple: #a78bfa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background:
+        radial-gradient(ellipse at 4% 12%, rgb(120 91 220 / 15%), transparent 33rem),
+        radial-gradient(ellipse at 100% 62%, rgb(52 193 180 / 8%), transparent 32rem),
+        var(--page);
+    color: var(--ink);
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.page-shell {
+    width: min(1120px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 88px;
+    border-bottom: 1px solid rgb(255 255 255 / 9%);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--ink);
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.brand-mark {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 13px;
+    background: var(--yellow);
+    color: #292039;
+    font-size: 21px;
+    font-weight: 700;
+    transform: rotate(-5deg);
+}
+
+.brand-logo {
+    display: block;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 auto;
+    filter: drop-shadow(0 5px 10px rgb(5 8 24 / 28%));
+    transition: transform .2s ease;
+}
+
+.brand:hover .brand-logo {
+    transform: rotate(-5deg) scale(1.06);
+}
+
+.brand-light {
+    color: #c6c2dc;
+    font-weight: 500;
+}
+
+.header-note,
+.game-count {
+    color: #cbc8df;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .13em;
+}
+
+.admin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 13px;
+    border: 1px solid rgb(255 255 255 / 12%);
+    border-radius: 11px;
+    color: #d7d3e8;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.admin-link:hover,
+.admin-link:focus-visible {
+    border-color: rgb(255 209 102 / 50%);
+    background: rgb(255 255 255 / 5%);
+    color: var(--yellow);
+}
+
+.header-star {
+    margin-right: 7px;
+    color: var(--yellow);
+    font-size: 16px;
+    vertical-align: -1px;
+}
+
+#main {
+    padding: 35px 0 70px;
+}
+
+.welcome-panel {
+    position: relative;
+    display: flex;
+    min-height: 290px;
+    align-items: center;
+    overflow: hidden;
+    padding: 50px 64px;
+    border: 1px solid rgb(255 255 255 / 11%);
+    border-radius: 28px;
+    background:
+        radial-gradient(ellipse at 91% 15%, rgb(255 209 102 / 16%), transparent 20rem),
+        radial-gradient(ellipse at 72% 117%, rgb(167 139 250 / 24%), transparent 24rem),
+        linear-gradient(115deg, #2a2648, #262442 65%, #302b50);
+    box-shadow: 0 24px 70px rgb(5 4 20 / 22%);
+}
+
+.welcome-copy {
+    position: relative;
+    z-index: 1;
+    max-width: 690px;
+}
+
+.eyebrow {
+    margin: 0 0 18px;
+    color: #c8baff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .16em;
+}
+
+.sparkle {
+    margin-right: 7px;
+    color: var(--yellow);
+    font-size: 15px;
+}
+
+.welcome-panel h1 {
+    margin: 0;
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    font-size: clamp(38px, 5.4vw, 62px);
+    font-weight: 700;
+    letter-spacing: -.055em;
+    line-height: 1.1;
+}
+
+.title-dot {
+    color: var(--yellow);
+}
+
+.welcome-description {
+    margin: 14px 0 0;
+    color: #c3c0d9;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.play-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 27px;
+    padding: 10px 14px;
+    border: 1px solid rgb(255 255 255 / 12%);
+    border-radius: 999px;
+    background: rgb(20 18 43 / 32%);
+    color: #e4e1f3;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: #73e0bd;
+    box-shadow: 0 0 0 4px rgb(115 224 189 / 13%);
+}
+
+.waiting-panel .status-dot {
+    background: var(--yellow);
+    box-shadow: 0 0 0 4px rgb(255 209 102 / 14%);
+    animation: pulse 1.8s ease-in-out infinite;
+}
+
+.waiting-highlight {
+    color: var(--yellow);
+}
+
+.setup-link {
+    color: #f4d88d;
+    text-decoration: none;
+}
+
+.setup-link:hover {
+    background: rgb(255 255 255 / 9%);
+}
+
+.welcome-description code {
+    color: #ffe29b;
+}
+
+.play-hint-error {
+    border-color: rgb(255 164 164 / 35%);
+    color: #ffc2c2;
+}
+
+.empty-games {
+    padding: 28px;
+    border: 1px dashed rgb(255 255 255 / 19%);
+    border-radius: 16px;
+    color: #c3c0d9;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.welcome-doodle {
+    position: absolute;
+    color: rgb(255 255 255 / 13%);
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    line-height: 1;
+    user-select: none;
+}
+
+.doodle-one {
+    top: 25px;
+    right: 11%;
+    color: rgb(255 209 102 / 55%);
+    font-size: 77px;
+    transform: rotate(-12deg);
+}
+
+.doodle-two {
+    right: 7%;
+    bottom: 15px;
+    color: rgb(167 139 250 / 50%);
+    font-size: 118px;
+    transform: rotate(12deg);
+}
+
+.fullscreen-button {
+    position: absolute;
+    z-index: 2;
+    top: 18px;
+    right: 18px;
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 14%);
+    border-radius: 13px;
+    background: rgb(20 18 43 / 35%);
+    color: #fff;
+    cursor: pointer;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.fullscreen-button:hover {
+    background: rgb(255 255 255 / 14%);
+    transform: translateY(-2px);
+}
+
+.fullscreen-button svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.games-section {
+    padding-top: 53px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 23px;
+}
+
+.section-eyebrow {
+    margin-bottom: 8px;
+    color: #aaa5c6;
+    font-size: 10px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -.04em;
+}
+
+.section-heading h2 span {
+    color: var(--yellow);
+}
+
+.game-count {
+    padding: 8px 11px;
+    border: 1px solid rgb(255 255 255 / 11%);
+    border-radius: 9px;
+    color: #b9b5ce;
+    font-size: 9px;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.game-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 9%);
+    border-radius: 20px;
+    background: linear-gradient(145deg, #262440, #211f39);
+    color: var(--ink);
+    text-decoration: none;
+    box-shadow: 0 12px 32px rgb(6 5 23 / 12%);
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.game-card:hover,
+.game-card:focus-visible {
+    z-index: 1;
+    border-color: rgb(255 255 255 / 28%);
+    box-shadow: 0 18px 38px rgb(6 5 23 / 28%);
+    color: var(--ink);
+    outline: none;
+    transform: translateY(-5px);
+}
+
+.game-card:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 3px;
+}
+
+.game-art {
+    position: relative;
+    display: block;
+    height: 185px;
+    flex: 0 0 auto;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 90%, rgb(255 255 255 / 12%), transparent 64%),
+        var(--art-bg, #36335a);
+}
+
+.game-art::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 57%, rgb(24 22 43 / 24%));
+    content: "";
+    pointer-events: none;
+}
+
+.game-art img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1);
+}
+
+.game-card:hover .game-art img {
+    transform: scale(1.045);
+}
+
+.game-info {
+    display: flex;
+    min-height: 139px;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 17px 19px 18px;
+}
+
+.game-category {
+    color: #aaa5c6;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .13em;
+}
+
+.game-title {
+    margin-top: 7px;
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.25;
+}
+
+.game-action {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 16px;
+    color: var(--accent, #c4b6fd);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.game-action span {
+    font-size: 17px;
+    transition: transform .2s ease;
+}
+
+.game-card:hover .game-action span {
+    transform: translate(3px, -2px);
+}
+
+.game-number {
+    position: absolute;
+    top: 12px;
+    right: 13px;
+    z-index: 1;
+    padding: 5px 7px;
+    border: 1px solid rgb(255 255 255 / 24%);
+    border-radius: 7px;
+    background: rgb(25 22 46 / 48%);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    backdrop-filter: blur(8px);
+}
+
+.site-footer {
+    display: flex;
+    min-height: 72px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgb(255 255 255 / 9%);
+    color: #a29eb9;
+    font-size: 12px;
+}
+
+.site-footer span:first-child {
+    color: #d4d0e7;
+    font-weight: 600;
+}
+
+.admin-main {
+    padding: 46px 0 70px;
+}
+
+.admin-intro {
+    margin-bottom: 32px;
+}
+
+.admin-intro .eyebrow {
+    margin-bottom: 12px;
+}
+
+.admin-intro h1 {
+    margin: 0;
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    font-size: clamp(36px, 5vw, 54px);
+    letter-spacing: -.05em;
+}
+
+.admin-intro h1 span {
+    color: var(--yellow);
+}
+
+.admin-intro > p:last-child {
+    margin: 12px 0 0;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.admin-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    align-items: start;
+    gap: 20px;
+}
+
+.admin-panel {
+    min-width: 0;
+    padding: 26px;
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 22px;
+    background: linear-gradient(145deg, #262440, #211f39);
+    box-shadow: 0 12px 32px rgb(6 5 23 / 12%);
+}
+
+.admin-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.admin-panel-icon {
+    display: grid;
+    width: 43px;
+    height: 43px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 14px;
+    background: rgb(255 209 102 / 14%);
+    color: var(--yellow);
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.catalog-icon {
+    background: rgb(167 139 250 / 16%);
+    color: #c9baff;
+    font-size: 15px;
+}
+
+.admin-panel-heading .eyebrow {
+    margin: 0 0 4px;
+    font-size: 9px;
+}
+
+.admin-panel-heading h2 {
+    margin: 0;
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    font-size: 21px;
+    letter-spacing: -.035em;
+}
+
+.game-form {
+    display: grid;
+    gap: 18px;
+}
+
+.form-field {
+    display: grid;
+    gap: 8px;
+}
+
+.form-field label {
+    color: #efedf8;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-field input {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid rgb(255 255 255 / 14%);
+    border-radius: 11px;
+    background: rgb(17 16 36 / 55%);
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+}
+
+.form-field input::placeholder {
+    color: #77748f;
+}
+
+.form-field input:focus-visible {
+    border-color: #a78bfa;
+    outline: 3px solid rgb(167 139 250 / 20%);
+}
+
+.form-field input[type="file"] {
+    padding: 8px;
+    color: #c7c3dc;
+}
+
+.form-field input[type="file"]::file-selector-button {
+    min-height: 28px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 7px;
+    background: #393556;
+    color: #f1eff8;
+    font: inherit;
+    cursor: pointer;
+}
+
+.form-field small {
+    color: #9c98b5;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.admin-submit {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--yellow);
+    color: #28213d;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.admin-submit:hover {
+    background: #ffe19a;
+    transform: translateY(-2px);
+}
+
+.admin-submit span {
+    font-size: 18px;
+}
+
+.form-message {
+    margin: 0 0 18px;
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.form-message p {
+    margin: 0;
+}
+
+.form-message p + p {
+    margin-top: 6px;
+}
+
+.form-success {
+    border-color: rgb(115 224 189 / 30%);
+    background: rgb(115 224 189 / 8%);
+    color: #a7f0d5;
+}
+
+.form-error {
+    border-color: rgb(255 145 145 / 30%);
+    background: rgb(255 145 145 / 8%);
+    color: #ffc2c2;
+}
+
+.admin-game-list {
+    display: grid;
+    max-height: 620px;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.admin-game-item {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid rgb(255 255 255 / 8%);
+    border-radius: 13px;
+    background: rgb(17 16 36 / 32%);
+}
+
+.admin-game-item img {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 auto;
+    border-radius: 9px;
+    background: #35314e;
+    object-fit: cover;
+}
+
+.admin-game-details {
+    display: grid;
+    min-width: 0;
+    gap: 3px;
+}
+
+.admin-game-name {
+    overflow: hidden;
+    color: #f7f5fd;
+    font-size: 13px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-game-type,
+.admin-game-link {
+    overflow: hidden;
+    color: #aaa5c6;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-game-link {
+    color: #827e9b;
+}
+
+.admin-security-note {
+    margin: 20px 0 0;
+    padding: 12px;
+    border: 1px solid rgb(255 209 102 / 16%);
+    border-radius: 12px;
+    background: rgb(255 209 102 / 5%);
+    color: #c2bb9f;
+    font-size: 10px;
+    line-height: 1.55;
+}
+
+.admin-security-note span {
+    margin-right: 4px;
+    color: var(--yellow);
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .5;
+        box-shadow: 0 0 0 7px rgb(255 209 102 / 7%);
+    }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+    .game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .game-card {
+        grid-column: auto;
+    }
+
+    .game-art {
+        height: clamp(215px, 28vw, 300px);
+    }
+
+    .game-info {
+        min-height: 165px;
+        padding: 20px 22px;
+    }
+
+    .game-category {
+        font-size: 10px;
+    }
+
+    .game-title {
+        font-size: 21px;
+    }
+
+    .game-action {
+        font-size: 13px;
+    }
+
+    .admin-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-game-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .page-shell {
+        width: min(100% - 36px, 600px);
+    }
+
+    .site-header {
+        min-height: 72px;
+    }
+
+    #main {
+        padding-top: 25px;
+    }
+
+    .welcome-panel {
+        min-height: 270px;
+        padding: 44px 30px;
+    }
+
+    .welcome-panel h1 {
+        max-width: 500px;
+        font-size: clamp(38px, 9vw, 54px);
+    }
+
+    .welcome-description {
+        max-width: 420px;
+        font-size: 14px;
+    }
+
+    .doodle-one {
+        right: 7%;
+    }
+
+    .doodle-two {
+        right: 4%;
+    }
+
+    .game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 13px;
+    }
+
+    .game-card {
+        grid-column: auto;
+    }
+
+    .game-art {
+        height: 165px;
+    }
+
+    .game-info {
+        min-height: 133px;
+        padding: 15px;
+    }
+
+    .game-title {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-shell {
+        width: calc(100% - 28px);
+    }
+
+    .brand {
+        gap: 8px;
+        font-size: 15px;
+    }
+
+    .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+    }
+
+    .brand-logo {
+        width: 39px;
+        height: 39px;
+    }
+
+    .header-note {
+        font-size: 9px;
+    }
+
+    .admin-link {
+        padding: 8px 9px;
+        font-size: 10px;
+    }
+
+    .admin-main {
+        padding-top: 36px;
+    }
+
+    .admin-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-panel {
+        padding: 21px;
+    }
+
+    .admin-game-list {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-panel {
+        min-height: 278px;
+        padding: 42px 22px 34px;
+        border-radius: 22px;
+    }
+
+    .welcome-panel h1 {
+        font-size: 40px;
+    }
+
+    .welcome-description {
+        max-width: 290px;
+    }
+
+    .play-hint {
+        max-width: 100%;
+        font-size: 10px;
+    }
+
+    .doodle-one {
+        top: 22px;
+        right: 9%;
+        font-size: 48px;
+    }
+
+    .doodle-two {
+        right: 4%;
+        bottom: 8px;
+        font-size: 78px;
+    }
+
+    .fullscreen-button {
+        top: 12px;
+        right: 12px;
+        width: 35px;
+        height: 35px;
+    }
+
+    .games-section {
+        padding-top: 39px;
+    }
+
+    .section-heading h2 {
+        font-size: 26px;
+    }
+
+    .game-count {
+        padding: 7px 8px;
+        font-size: 8px;
+    }
+
+    .game-grid {
+        gap: 10px;
+    }
+
+    .game-art {
+        height: 130px;
+    }
+
+    .game-info {
+        min-height: 129px;
+        padding: 13px 12px;
+    }
+
+    .game-category {
+        font-size: 8px;
+        letter-spacing: .09em;
+    }
+
+    .game-title {
+        font-size: 15px;
+    }
+
+    .site-footer {
+        font-size: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

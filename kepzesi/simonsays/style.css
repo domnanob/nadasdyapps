@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+body {
+    /*   overflow-y: hidden;
+  overflow: hidden;
+  overflow-x: hidden; */
+    user-select: none;
+    font-family: 'Pixelify ', sans-serif;
+}
+
+#gameContainer,
+#endGameContainer {
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#startGameContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#centerCircle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #212529;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    z-index: 10;
+    cursor: default;
+    border: 0;
+}
+
+#greenBtn {
+    background-color: #34C759;
+    border-top-right-radius: 100%;
+}
+
+.hover:hover {
+    /*transform: scale(1.075);
+    transition: transform 0.2s ease-in-out, filter 0.3s ease-in-out;
+    filter: brightness(1.35);*/
+    animation-name: growing;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes growing {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: scale(1.075);
+        filter: brightness(1.35);
+    }
+
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+
+#redBtn {
+    background-color: #FF3B30;
+    border-bottom-left-radius: 100%;
+}
+
+#yellowBtn {
+    background-color: #FFCC00;
+    border-bottom-right-radius: 100%;
+}
+
+#blueBtn {
+    background-color: #007AFF;
+    border-top-left-radius: 100%;
+}
+
+#blueBtn,
+#greenBtn,
+#redBtn,
+#yellowBtn,
+#currentgreenBtn,
+#currentredBtn,
+#currentyellowBtn,
+#currentblueBtn {
+    color: white;
+    height: 175px;
+    width: 175px;
+    border: none;
+    position: relative;
+}
+
+#blueBtn[disabled],
+#greenBtn[disabled],
+#redBtn[disabled],
+#yellowBtn[disabled],
+#currentgreenBtn[disabled],
+#currentredBtn[disabled],
+#currentyellowBtn[disabled],
+#currentblueBtn[disabled] {
+    border: none;
+    opacity: 1;
+}
+
+#currentgreenBtn {
+    background-color: #99FFA1;
+    border-top-right-radius: 100%;
+}
+
+#currentredBtn {
+    background-color: #FF8989;
+    border-bottom-left-radius: 100%;
+}
+
+#currentyellowBtn {
+    background-color: #FFFF66;
+    border-bottom-right-radius: 100%;
+}
+
+#currentblueBtn {
+    background-color: #66B3FF;
+    border-top-left-radius: 100%;
+}
+
+.promptContainer {
+    position: absolute;
+    left: 50%;
+    top: 28%;
+    transform: translate(-50%, -50%);
+    width: clamp(280px, 90vw, 500px);
+    height: auto;
+    max-height: 90vh;
+    background-color: #343434;
+    border-radius: 10px;
+    z-index: 11;
+    font-family: 'Cal Sans', sans-serif;
+    color: #9ca3af;
+    padding: 2vh 2vw;
+    overflow: visible;
+}
+
+#fsBtn {
+    position: absolute;
+    border: 0;
+    right: 0;
+    top: 0;
+    font-size: 25px;
+}
+
+.leaderboardContainer {
+    font-family: "Pixelify Sans", sans-serif;
+
+
+    #leaderboardTable {
+        margin: auto;
+
+        font-size: 35px;
+
+        thead th {
+            font-family: "Pixelify Sans", sans-serif;
+        }
+
+        th {
+            font-family: "ArcadeClassic", sans-serif;
+            font-weight: 300;
+            padding: 0 10px;
+        }
+
+        tbody td:nth-child(3) {
+            font-family: "ArcadeClassic", sans-serif;
+
+        }
+
+
+
+    }
+
+}
+
+.btns {
+    color: #aaa;
+
+    background: none;
+    border: none;
+    font-family: 'ArcadeClassic', sans-serif;
+    font-size: 30px;
+
+    transition: none;
+
+
+}
+
+.btns:hover {
+    color: #fff;
+    text-shadow: #fff 0 0 10px;
+
+
+    transform: scale(1.05);
+    transition: ease-in 0.3s;
+}
+
+.btns:active,
+.btns:focus {
+    transition: none !important;
+}
+
+#nameInput {
+    transition: 0.6s;
+}
+
+#nameInput:focus {
+    outline: none !important;
+    box-shadow: 0 0 15px #999 !important;
+    border: 1px solid #999 !important;
+}
+
+.retro-text {
+    font-family: 'ArcadeClassic', sans-serif;
+    position: relative;
+    left: 50%;
+    bottom: 90%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 50px;
+    font-size: 40px;
+}
+
+#currentScore {
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 40px;
+    margin: auto;
+
+}
