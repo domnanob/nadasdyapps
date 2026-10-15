@@ -582,6 +582,20 @@ tr:last-of-type td:last-of-type {
     font: 200 1em 'Cal Sans', sans-serif;
 }
 
+.spotify-attribution {
+    margin: 0.25em 0 0;
+    font: 200 0.9em 'Cal Sans', sans-serif;
+}
+
+.spotify-attribution a {
+    color: #1DB954;
+    text-decoration: none;
+}
+
+.spotify-attribution a:hover {
+    text-decoration: underline;
+}
+
 .artistName,
 .artistValue,
 .has,

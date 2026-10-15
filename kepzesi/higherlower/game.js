@@ -6,25 +6,36 @@ const gameBody = document.querySelector(".gameBody")
 let items = []
 const mode = sessionStorage.getItem('gameMode')
 if (mode === 'spotify') {
-    fetch("db/spotify_items.json")
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error("Could not load spotify_items.json")
+    fetch("server/spotify_api.php")
+        .then(async response => {
+            const artists = await response.json()
+            if (!response.ok) {
+                throw new Error(artists.error || "A Spotify-adatok betöltése nem sikerült.")
             }
-            return res.json()
+            if (!Array.isArray(artists) || artists.length < 2) {
+                throw new Error("A Spotify-adatforrás nem adott elegendő előadót.")
+            }
+            return artists
         })
-        .then((jsonArray) => {
-            items = jsonArray
-
-            preloadItems(() => {
-                loadingscreen.hidden = true
-                gameDiv.hidden = false
-                GameStart()
+        .then(artists => {
+            items = artists
+            document.querySelectorAll('.has').forEach(element => {
+                element.innerText = 'Spotify-népszerűség:'
             })
+            document.querySelectorAll('.valueText').forEach(element => {
+                element.innerText = 'pont'
+            })
+            document.querySelectorAll('.unit').forEach(element => {
+                element.innerText = '/ 100'
+            })
+            document.querySelectorAll('.spotify-attribution').forEach(element => {
+                element.hidden = false
+            })
+            preloadItems(startLoadedGame)
         })
-        .catch((err) => {
-            console.error("Error fetching Spotify items:", err)
-            loadingscreen.textContent = "Nem sikerült betölteni a Spotify-adatokat. Frissítsd az oldalt, és próbáld újra."
+        .catch(error => {
+            console.error("Error fetching Spotify artists:", error)
+            loadingscreen.textContent = error.message || "Nem sikerült betölteni a Spotify-adatokat. Frissítsd az oldalt, és próbáld újra."
         })
 
 }
@@ -47,23 +58,21 @@ else if (mode === 'countries') {
                 country.name = countryNames.of(country.code) || country.name
             })
             items = countries
-            preloadItems(() => {
-                loadingscreen.hidden = true
-                gameDiv.hidden = false
-                gameBody.classList.add('mode-countries');
-                document.querySelectorAll('.has').forEach(element => {
-                    element.innerText = 'Területe:'
-                })
-                document.querySelectorAll('.valueText').forEach(element => {
-                    element.innerText = ''
-                })
-                document.querySelectorAll('.unit').forEach(element => {
-                    element.innerText = 'km²'
-                })
-                higherbtn.innerHTML = 'Nagyobb<i class="fa-solid fa-caret-up"></i>'
-                lowerbtn.innerHTML = 'Kisebb<i class="fa-solid fa-caret-down"></i>'
-                GameStart()
+            valueTxt = ''
+            unitTxt = 'km²'
+            gameBody.classList.add('mode-countries')
+            document.querySelectorAll('.has').forEach(element => {
+                element.innerText = 'Területe:'
             })
+            document.querySelectorAll('.valueText').forEach(element => {
+                element.innerText = valueTxt
+            })
+            document.querySelectorAll('.unit').forEach(element => {
+                element.innerText = unitTxt
+            })
+            higherbtn.innerHTML = 'Nagyobb<i class="fa-solid fa-caret-up"></i>'
+            lowerbtn.innerHTML = 'Kisebb<i class="fa-solid fa-caret-down"></i>'
+            preloadItems(startLoadedGame)
         })
         .catch(error => {
             console.error("Error fetching country data:", error)
@@ -77,15 +86,15 @@ function preloadItems(callback) {
 
     items.forEach(item => {
         const img = new Image()
-        img.src = item.img
-        img.onload = () => {
+        const finish = () => {
             loaded++
-            //console.log(`Loaded ${item.name} image.`);
-
             if (loaded === total) {
                 callback()
             }
         }
+        img.addEventListener('load', finish, { once: true })
+        img.addEventListener('error', finish, { once: true })
+        img.src = item.img
     })
 
 }
@@ -96,6 +105,8 @@ let imgL = document.getElementById("imgL")
 let imgR = document.getElementById("imgR")
 let artistL = document.getElementById("artistL")
 let artistR = document.getElementById("artistR")
+let spotifyLinkL = document.getElementById("spotifyLinkL")
+let spotifyLinkR = document.getElementById("spotifyLinkR")
 let valueL = document.getElementById("valueL")
 let valueR = document.getElementById("valueR")
 let valueLNum = document.getElementById("valueLNum")
@@ -129,16 +140,23 @@ backToMenu.addEventListener("click", function () {
 
 
 let valueText = document.querySelectorAll(".valueText")
-let valueTxt = 'millió'
+let valueTxt = 'pont'
 
 let unit = document.querySelectorAll(".unit")
-let unitTxt = ''
+let unitTxt = '/ 100'
+
+function startLoadedGame() {
+    loadingscreen.hidden = true
+    gameDiv.hidden = false
+    GameStart()
+}
 
 function GameStart() {
     guessedItemIndex = Math.floor(Math.random() * items.length)
 
     imgL.src = items[guessedItemIndex].img
     artistL.innerText = items[guessedItemIndex].name
+    updateSpotifyLink(spotifyLinkL, items[guessedItemIndex])
     valueLNum.innerText = items[guessedItemIndex].value.toLocaleString('hu-HU')
     valueText.forEach(element => {
         element.innerText = valueTxt
@@ -153,18 +171,33 @@ function GameStart() {
 
 }
 
+function updateSpotifyLink(link, item) {
+    if (mode === 'spotify' && typeof item.url === 'string') {
+        link.href = item.url
+    }
+}
+
 
 function loadItem() {
-    let nextItemIndex
-    do {
-        nextItemIndex = Math.floor(Math.random() * items.length)
-    } while (nextItemIndex === guessedItemIndex || usedItems.includes(nextItemIndex))
+    let availableItems = items
+        .map((item, index) => index)
+        .filter(index => index !== guessedItemIndex && !usedItems.includes(index))
+
+    if (availableItems.length === 0) {
+        usedItems = []
+        availableItems = items
+            .map((item, index) => index)
+            .filter(index => index !== guessedItemIndex)
+    }
+
+    const nextItemIndex = availableItems[Math.floor(Math.random() * availableItems.length)]
 
     guessingItemIndex = nextItemIndex
     usedItems.push(guessingItemIndex)
 
     imgR.src = items[guessingItemIndex].img
     artistR.innerText = items[guessingItemIndex].name
+    updateSpotifyLink(spotifyLinkR, items[guessingItemIndex])
     valueRNum.innerText = items[guessingItemIndex].value.toLocaleString('hu-HU')
 
 
@@ -237,6 +270,7 @@ function loadNextItem() {
 
     imgL.src = items[guessedItemIndex].img
     artistL.innerText = items[guessedItemIndex].name
+    updateSpotifyLink(spotifyLinkL, items[guessedItemIndex])
     valueLNum.innerText = items[guessedItemIndex].value.toLocaleString('hu-HU')
     scoreValue.innerText = score
 
@@ -284,14 +318,3 @@ playAgainBtn.addEventListener("click", function () {
     scoreValue.innerText = score
 
 })
-
-
-
-
-window.onload = () => {
-    preloadItems(() => {
-        loadingscreen.hidden = true
-        gameDiv.hidden = false
-        GameStart()
-    })
-}

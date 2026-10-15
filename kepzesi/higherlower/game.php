@@ -54,22 +54,23 @@
                 <img class="selectDisable" id="imgL">
                 <div class="text">
                     <p class="artistName" id="artistL">Előadó</p>
-                    <p class="has">Havi hallgatók száma:</p>
+                    <p class="has">Spotify-népszerűség:</p>
                     <p class="artistValue" id="valueL">
                         <span id="valueLNum">50</span>
-                        <span class="valueText">millió</span>
+                        <span class="valueText">pont</span>
                     </p>
-                    <p class="unit"></p>
+                    <p class="unit">/ 100</p>
+                    <p class="spotify-attribution" hidden><a id="spotifyLinkL" href="#" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify" aria-hidden="true"></i> Spotify</a></p>
                 </div>
             </div>
             <div class="col-6 p-0 itemcard">
                 <img class="selectDisable" id="imgR" onerror="this.onerror = null; this.src='fallback.png'">
                 <div class="text">
                     <p class="artistName" id="artistR">Előadó</p>
-                    <p class="has">Havi hallgatók száma:</p>
+                    <p class="has">Spotify-népszerűség:</p>
                     <p class="artistValue" id="valueR" hidden>
                         <span id="valueRNum">50</span>
-                        <span class="valueText">millió</span>
+                        <span class="valueText">pont</span>
                     </p>
 
                     <div class="buttons">
@@ -80,7 +81,8 @@
                             <button class="butn" id="lowerBtn">Kevesebb<i class="fa-solid fa-caret-down"></i></button>
                         </div>
                     </div>
-                    <p class="unit"></p>
+                    <p class="unit">/ 100</p>
+                    <p class="spotify-attribution" hidden><a id="spotifyLinkR" href="#" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify" aria-hidden="true"></i> Spotify</a></p>
                 </div>
             </div>
             <div class="answerbox">
