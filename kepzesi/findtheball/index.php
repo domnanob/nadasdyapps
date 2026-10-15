@@ -39,7 +39,7 @@ if (isset($_GET['action'])) {
                 send_json(['error' => 'Érvénytelen pontszám.'], 422);
             }
 
-            $connection->begin_transaction();
+            $connection->beginTransaction();
             $transactionStarted = true;
             $lowestScore = $connection->query(
                 'SELECT score FROM findtheball_scores ORDER BY score ASC, id DESC LIMIT 1'

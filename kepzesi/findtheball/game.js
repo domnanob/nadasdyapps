@@ -259,9 +259,23 @@ async function saveScore(event) {
                 score: state.score,
             }),
         });
-        const result = await response.json();
+        const responseText = await response.text();
+        let result;
+        try {
+            result = JSON.parse(responseText);
+        } catch {
+            console.error("Find the Ball score API returned a non-JSON response.", {
+                status: response.status,
+                contentType: response.headers.get("content-type"),
+            });
+            throw new Error(`A mentés nem sikerült (HTTP ${response.status}). Ellenőrizd a szerver API-válaszát.`);
+        }
+
         if (!response.ok) {
-            throw new Error(result.error || "Az eredményt nem sikerült elmenteni.");
+            throw new Error(result.error || `Az eredményt nem sikerült elmenteni (HTTP ${response.status}).`);
+        }
+        if (!Array.isArray(result.scores) || typeof result.saved !== "boolean") {
+            throw new Error("A szerver hibás választ adott az eredmény mentésekor.");
         }
 
         renderScores(result.scores);
