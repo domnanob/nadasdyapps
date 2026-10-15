@@ -251,7 +251,7 @@ async function saveScore(event) {
     saveMessage.textContent = "Mentés...";
 
     try {
-        const response = await fetch("./?action=submit-score", {
+        const response = await fetch("./index.php?action=submit-score", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
