@@ -1,3 +1,13 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../includes/database.php';
+$conn = kepzesi_database_connection('higherorlowergame');
+require_once __DIR__ . '/server/functions.php';
+$user_data = check_login($conn);
+?>
 <!DOCTYPE html>
 <html lang="hu">
 
@@ -9,24 +19,6 @@
     <script src="https://kit.fontawesome.com/bb8ffdf1b9.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <title>Magasabb vagy alacsonyabb?</title>
-
-    <?php
-
-    session_start();
-
-    require_once __DIR__ . '/../includes/database.php';
-    $conn = kepzesi_database_connection('higherorlowergame');
-    include("server/functions.php");
-
-
-    $user_data = check_login($conn);
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
-        exit();
-    }
-
-
-    ?>
 
 </head>
 

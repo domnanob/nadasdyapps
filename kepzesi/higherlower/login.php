@@ -1,3 +1,62 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../includes/database.php';
+$conn = kepzesi_database_connection('higherorlowergame');
+require_once __DIR__ . '/server/functions.php';
+
+$formMode = $_POST['formtype'] ?? 'login';
+$formError = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['guest'])) {
+        session_regenerate_id(true);
+        $_SESSION['user_id'] = generate__uuid();
+        $_SESSION['is_guest'] = true;
+        header('Location: index.php', true, 303);
+        exit;
+    }
+
+    $username = trim((string) ($_POST['username'] ?? ''));
+    $email = trim((string) ($_POST['email'] ?? ''));
+    $password = (string) ($_POST['password'] ?? '');
+    $country = (string) ($_POST['country'] ?? '');
+
+    if ($formMode === 'signup') {
+        if ($username !== '' && $password !== '' && $email !== '' && !is_numeric($username)) {
+            $userId = generate__uuid();
+            $statement = $conn->prepare(
+                'INSERT INTO higherorlower_users (user_id, username, email, password, country) VALUES (?, ?, ?, ?, ?)'
+            );
+            $statement->execute([$userId, $username, $email, $password, $country]);
+            header('Location: login.php', true, 303);
+            exit;
+        }
+
+        $formError = 'Kérjük, adj meg érvényes adatokat!';
+    } elseif ($formMode === 'login') {
+        if ($email !== '' && $password !== '') {
+            $statement = $conn->prepare('SELECT * FROM higherorlower_users WHERE email = ? LIMIT 1');
+            $statement->execute([$email]);
+            $userData = $statement->fetch();
+
+            if ($userData && $userData['password'] === $password) {
+                session_regenerate_id(true);
+                $_SESSION['user_id'] = $userData['user_id'];
+                unset($_SESSION['is_guest']);
+                header('Location: index.php', true, 303);
+                exit;
+            }
+
+            $formError = 'Hibás e-mail-cím vagy jelszó.';
+        } else {
+            $formError = 'Kérjük, add meg az e-mail-címedet és a jelszavadat!';
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="hu">
 
@@ -11,72 +70,6 @@
     <link rel="stylesheet" href="style.css">
     <title>Bejelentkezés</title>
 
-    <?php
-
-    session_start();
-
-    require_once __DIR__ . '/../includes/database.php';
-    $conn = kepzesi_database_connection('higherorlowergame');
-    include("server/functions.php");
-
-    $form_mode = $_POST['formtype'] ?? 'login';
-
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if (isset($_POST['guest'])) {
-            session_regenerate_id(true);
-            $_SESSION['user_id'] = generate__uuid();
-            $_SESSION['is_guest'] = true;
-            header("Location: index.php");
-            die;
-        }
-
-        $username = $_POST['username'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-        $country = $_POST['country'] ?? '';
-
-        if ($form_mode == 'signup') {
-            if (!empty($username) && !empty($password) && !empty($email) && !is_numeric($username)) {
-
-
-                //mentés az adatbázisba
-                $user_id = generate__uuid();
-                $statement = $conn->prepare(
-                    'INSERT INTO higherorlower_users (user_id, username, email, password, country) VALUES (?, ?, ?, ?, ?)'
-                );
-                $statement->execute([$user_id, $username, $email, $password, $country]);
-                header("Location: login.php");
-                die;
-
-            } else {
-                echo "Kérjük, adj meg érvényes adatokat!";
-            }
-
-        } elseif ($form_mode == "login") {
-
-            if (!empty($email) && !empty($password)) {
-                //olvasasás az adatbázisból
-                $statement = $conn->prepare('SELECT * FROM higherorlower_users WHERE email = ? LIMIT 1');
-                $statement->execute([$email]);
-                $user_data = $statement->fetch();
-                if ($user_data && $user_data['password'] === $password) {
-                    $_SESSION['user_id'] = $user_data['user_id'];
-                    unset($_SESSION['is_guest']);
-                    header("Location: index.php");
-                    die;
-                }
-                echo "Hibás e-mail-cím vagy jelszó.";
-            } else {
-                echo "Kérjük, add meg az e-mail-címedet és a jelszavadat!";
-            }
-        }
-    }
-
-
-
-
-    ?>
-
 </head>
 
 <body data-bs-theme="dark">
@@ -85,6 +78,9 @@
     <div class="container  d-flex justify-content-center">
         <div class="container border m-5 rounded-3 p-4">
             <h1 class="text-center" id="signTxt">Bejelentkezés</h1>
+            <?php if ($formError !== ''): ?>
+                <p class="text-center" role="alert"><?= htmlspecialchars($formError, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
+            <?php endif; ?>
             <form method="post">
                 <input type="hidden" name="formtype" id="formtype" value="login">
                 <div class="mb-3">
