@@ -1,6 +1,6 @@
 <?php
 $permissionData = json_decode(
-    file_get_contents(__DIR__ . '/api/permission/permission.json'),
+    file_get_contents(__DIR__ . '/api/permission.json'),
     true
 );
 $games = [];

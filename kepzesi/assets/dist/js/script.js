@@ -7,7 +7,7 @@ async function checkPermissions() {
         await delay(2000);
 
         try {
-            const response = await fetch("./api/permission/get.php", { cache: "no-store" });
+            const response = await fetch("./api/get.php", { cache: "no-store" });
             if (!response.ok) {
                 throw new Error(`Permission check failed with status ${response.status}.`);
             }
