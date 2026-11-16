@@ -4,7 +4,7 @@
  */
 
 // Osztálylista a legördülő menühöz. Írd át a valós osztályaitokra!
-$classes = ["9","10", "11", "12", "13"];
+$classes = ["9A","10A", "11A", "12A", "13A", "13A", "3/11", "4/12"];
 $classes[] = 'Egyéb';
 
 return [
@@ -20,7 +20,7 @@ return [
     'timezone' => 'Europe/Budapest',
 
     // Jelentkezési határidő (ezután az oldal automatikusan lezár). Üresen hagyva nincs határidő.
-    'registration_deadline' => '2026-12-10 23:59:59',
+    'registration_deadline' => '2026-12-07 23:59:59',
 
     'event_date' => '2026.12.14',
     'event_time' => '13:00',
