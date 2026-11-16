@@ -4,7 +4,7 @@
  */
 
 // Osztálylista a legördülő menühöz. Írd át a valós osztályaitokra!
-$classes = ["9A","10A", "11A", "12A", "13A", "13A", "3/11", "4/12"];
+$classes = ["9A","10A", "11A", "12A", "13A", "13B", "3/11", "4/12"];
 $classes[] = 'Egyéb';
 
 return [
