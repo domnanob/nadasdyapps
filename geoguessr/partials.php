@@ -78,11 +78,11 @@ function render_crest(): void
     <rect x="150" y="0" width="150" height="360" fill="#12063f" opacity=".35" clip-path="url(#shieldClip)"/>
     <path d="<?= $shield ?>" fill="none" stroke="#9a6bff" stroke-width="3" transform="translate(150 190) scale(.9) translate(-150 -190)"/>
     <g class="crest-text" transform="rotate(-8 150 200)">
-        <text x="150" y="150" text-anchor="middle" font-size="17" textLength="130" lengthAdjust="spacingAndGlyphs">GEOGUESSR</text>
-        <text x="150" y="208" text-anchor="middle" font-size="46" textLength="200" lengthAdjust="spacingAndGlyphs">NÁDASDY</text>
-        <text x="150" y="262" text-anchor="middle" font-size="56" textLength="120" lengthAdjust="spacingAndGlyphs">CUP</text>
+        <text x="160" y="120" text-anchor="middle" font-size="17" textLength="130" lengthAdjust="spacingAndGlyphs">GEOGUESSR</text>
+        <text x="155" y="180" text-anchor="middle" font-size="46" textLength="200" lengthAdjust="spacingAndGlyphs">NÁDASDY</text>
+        <text x="150" y="230" text-anchor="middle" font-size="56" textLength="120" lengthAdjust="spacingAndGlyphs">CUP</text>
     </g>
-    <text class="crest-text" x="150" y="316" text-anchor="middle" font-size="22">’26</text>
+    <text class="crest-text" x="150" y="300" text-anchor="middle" font-size="22">’26</text>
     <g class="pin">
         <path d="M150 -14 a34 34 0 0 1 34 34 c0 22 -22 38 -34 54 c-12 -16 -34 -32 -34 -54 a34 34 0 0 1 34 -34z"
               fill="#ff2d3f" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
